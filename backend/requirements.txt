@@ -1,0 +1,4 @@
+
+Flask==2.2.2
+pymongo==4.1.1
+Werkzeug==2.2.2

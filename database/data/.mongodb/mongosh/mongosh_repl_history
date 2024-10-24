@@ -1,0 +1,9 @@
+db.users.find().pretty()
+show collections
+use user_db
+show dbs
+show collections
+show collectioons
+show dbs
+show collections
+show dbs
