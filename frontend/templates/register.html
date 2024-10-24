@@ -1,24 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-</head>
-<body>
-    <h2>Register</h2>
-    <form method="POST" action="{{ url_for('register') }}">
-        <label>Username:</label>
-        <input type="text" name="username" required>
-        <label>Email:</label>
-        <input type="email" name="email" required>
-        <label>Password:</label>
-        <input type="password" name="password" required>
-        <label>Gender:</label>
-        <input type="text" name="gender" required>
-        <button type="submit">Register</button>
-    </form>
-    <p>{{ message }}</p>
-    <p><a href="{{ url_for('loginpage') }}">Back to Login</a></p>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %} Register {% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card p-4 shadow-lg">
+            <h2 class="text-center mb-4">Register</h2>
+            <form method="POST" action="{{ url_for('register') }}">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username:</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Gender:</label>
+                    <select class="form-select" id="gender" name="gender" required>
+                        <option value="" disabled selected>Select your gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
+
+            <!-- Display message if available -->
+            {% if message %}
+                <div class="alert alert-info mt-3">
+                    {{ message }}
+                </div>
+            {% endif %}
+
+            <!-- Link back to login -->
+            <p class="text-center mt-3">
+                <a href="{{ url_for('loginpage') }}">Back to Login</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
