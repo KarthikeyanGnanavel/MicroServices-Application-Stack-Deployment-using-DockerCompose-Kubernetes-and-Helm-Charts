@@ -1,0 +1,33 @@
+version: '3'
+services:
+  frontend:
+    image: myapp_frontend  # Referencing the pre-built image
+    ports:
+      - "5000:5000"
+    depends_on:
+      - backend
+    deploy:
+      replicas: 3  # Set the number of replicas for frontend
+
+  backend:
+    image: myapp_backend  # Referencing the pre-built image
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/user_db
+    deploy:
+      replicas: 2  # Set the number of replicas for backend
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./database/data:/data/db
+      - ./database/init_db.sh:/docker-entrypoint-initdb.d/init_db.sh
+    environment:
+      MONGO_INITDB_DATABASE: user_db
+    deploy:
+      replicas: 1  # MongoDB should typically have one replica for primary usage
