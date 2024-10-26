@@ -51,7 +51,10 @@ def register():
 
         if response.status_code == 201:
             return render_template('loginpage.html', message='User registered successfully!')
-        return render_template('register.html', message='Registration failed. Try again.')
+
+        # Update the error message handling to include the specific email
+        error_message = response.json().get('message', 'An error occurred.')
+        return render_template('register.html', message=error_message)
 
     return render_template('register.html')
 

@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
+from pymongo.errors import DuplicateKeyError
 
 app = Flask(__name__)
 
@@ -7,6 +8,9 @@ app = Flask(__name__)
 client = MongoClient('mongodb://mongo:27017/')
 db = client['user_db']
 users_collection = db['users']
+
+# Create a unique index on the 'email' field to prevent duplicate entries
+users_collection.create_index('email', unique=True)
 
 
 @app.route('/')
@@ -18,15 +22,19 @@ def home():
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
-    if users_collection.find_one({'email': data['email']}):
-        return jsonify({'message': 'User already exists'}), 409
-    users_collection.insert_one({
-        'username': data['username'],
-        'email': data['email'],
-        'password': data['password'],  # NOTE: Add password encryption in production
-        'gender': data['gender']
-    })
-    return jsonify({'message': 'User created successfully'}), 201
+    try:
+        # Try inserting the new user; will raise DuplicateKeyError if email already exists
+        users_collection.insert_one({
+            'username': data['username'],
+            'email': data['email'],
+            'password': data['password'],  # NOTE: Add password encryption in production
+            'gender': data['gender']
+        })
+        return jsonify({'message': 'User created successfully'}), 201
+
+    except DuplicateKeyError:
+        # Handle duplicate email error by sending a conflict response with the duplicate email
+        return jsonify({'message': f'User with email {data["email"]} already exists. Please log in.'}), 409
 
 
 # User login

@@ -14,7 +14,9 @@ services:
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=mongodb://mongo:27017/user_db  # Ensure the backend knows where to find the MongoDB container
+      - MONGO_URI=mongodb://mongo:27017/user_db
+    volumes:
+      - ./backend:/app  # Mounts local 'backend' folder to '/app' in container
 
   mongo:
     image: mongo:latest  # Use the official MongoDB image directly

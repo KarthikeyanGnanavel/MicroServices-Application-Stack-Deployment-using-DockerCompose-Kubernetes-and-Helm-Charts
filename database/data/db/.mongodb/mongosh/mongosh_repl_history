@@ -1,0 +1,4 @@
+db.users.find().pretty()
+cls
+show collections
+show dbs

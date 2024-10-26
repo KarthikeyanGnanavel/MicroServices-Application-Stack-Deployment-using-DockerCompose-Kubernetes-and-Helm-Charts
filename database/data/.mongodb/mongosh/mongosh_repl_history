@@ -1,4 +1,15 @@
 db.users.find().pretty()
+db.users.find().pretty()\
+use user_db
+db.users.find().pretty()
+use user_db
+db.users.find().pretty()
+use user_db
+show dbs
+db.users.find().pretty()
+use user_db
+show dbs
+db.users.find().pretty()
 show collections
 use user_db
 show dbs
