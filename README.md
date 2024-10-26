@@ -1,108 +1,80 @@
 # Microservices Application
 
-This repository contains a Dockerized microservices application built with Flask for the backend and a web frontend. The application allows users to register and log in, utilizing MongoDB as the database for user management.
+## Overview
+This is a microservices application built using Flask for the backend, React for the frontend, and MongoDB for the database. It supports user registration and login functionalities.
 
-## Table of Contents
-
-- [Features](#features)
-- [Technologies](#technologies)
-- [Architecture](#architecture)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Running the Application](#running-the-application)
-- [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
+## Technologies Used
+- **Frontend**: Flask
+- **Backend**: Flask
+- **Database**: MongoDB
+- **Containerization**: Docker
+- **Orchestration**: Docker Swarm
 
 ## Features
+- User registration with unique email validation
+- User login functionality
+- Persistent storage for MongoDB
+- Microservices architecture
+- Deployable using Docker Swarm
 
-- User registration with email validation.
-- User login functionality.
-- Containerized services using Docker and Docker Compose.
-- MongoDB for user data storage.
+## Prerequisites
+- Docker installed on your machine
+- Docker Compose installed
+- Docker Swarm initialized (for swarm deployment)
 
-## Technologies
+## Setup Instructions
 
-- Flask - Web framework for building the backend service.
-- MongoDB - NoSQL database for storing user data.
-- Docker - Containerization platform.
-- Docker Compose - Tool for defining and running multi-container Docker applications.
+### 1. Clone the Repository
+```bash
+git clone <repository-url>
+cd Microservices_App
+```
 
-## Architecture
+### 2. Build and Run with Docker Compose
+You can run the application locally using Docker Compose:
 
-The application consists of three main services:
+```bash
+docker-compose up -d --build
+```
 
-1. **Frontend**: A web interface for user registration and login.
-2. **Backend**: A RESTful API for handling user-related operations.
-3. **MongoDB**: A database service for storing user information.
+### 3. Access the Application
+- Frontend: `http://localhost:5000`
+- Backend: `http://localhost:5001`
 
-## Getting Started
+### 4. Deploying with Docker Swarm
+To deploy the application using Docker Swarm, follow these steps:
 
-### Prerequisites
+#### Step 1: Initialize Docker Swarm
+If you haven't already initialized Docker Swarm, run:
 
-Before you begin, ensure you have the following installed:
+```bash
+docker swarm init
+```
 
-- Docker
-- Docker Compose
+#### Step 2: Deploy the Stack
+Use the following command to deploy the application stack using the `docker-swarm.yml` file:
 
-### Running the Application
+```bash
+docker stack deploy -c docker-swarm.yml myapp
+```
 
-1. Clone this repository:
+#### Step 3: Accessing the Application
+Once the services are deployed, you can access the application via the published ports on your node:
 
-   ```bash
-   git clone <repository-url>
-   cd Microservices_App
-   ```
+- Frontend: `http://<node-ip>:5000`
+- Backend: `http://<node-ip>:5001`
 
-2. Build and run the application using Docker Compose:
 
-   ```bash
-   docker-compose up -d --build
-   ```
+### 5. Stopping Docker Swarm
+To remove the stack and stop the services, run:
 
-3. Open your web browser and navigate to `http://localhost:5000` to access the frontend application.
+```bash
+docker stack rm myapp
+```
 
-4. To stop the application, run:
-
-   ```bash
-   docker-compose down
-   ```
-
-## API Endpoints
-
-### User Registration
-
-- **Endpoint**: `/register`
-- **Method**: `POST`
-- **Request Body**:
-  ```json
-  {
-    "username": "user1",
-    "email": "user1@example.com",
-    "password": "password123",
-    "gender": "male"
-  }
-  ```
-- **Response**:
-  - `201 Created`: User created successfully.
-  - `409 Conflict`: User already exists. Please log in.
-
-### User Login
-
-- **Endpoint**: `/login`
-- **Method**: `POST`
-- **Request Body**:
-  ```json
-  {
-    "email": "user1@example.com",
-    "password": "password123"
-  }
-  ```
-- **Response**:
-  - `200 OK`: Returns the username of the logged-in user.
-  - `401 Unauthorized`: Invalid credentials.
+## Notes
+- The application is designed for development purposes and may require additional security measures for production use.
 
 ## Contributing
-
-Contributions are welcome! Please feel free to submit a pull request or open an issue to discuss changes.
+If you'd like to contribute to this project, feel free to fork the repository and submit a pull request.
 
